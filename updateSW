@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# This script updates all the Virtual Machine software ie:
+# omegalib
+#    several modules
+# bino
+# Equalizer
+# drishti
+# [Darren 22Apr16]
+
+# TODO:
+# fetch latest release from github (or gitlab) through github API
+
+# check that this script is run as root
+if (( $EUID != 0 )); then
+	echo "Please run $0 as root, ie. 'sudo $0'"
+	exit
+fi
+
+
+cd
+
+eval `ssh-agent`
+ssh-add ~/.ssh/id_rsa_gitlab_deploy
+
+export REPOS="
+examples
+davmdoc
+videos
+"
+
+cd /local
+
+for REPO_NAME in $REPOS
+do
+	if [[ -d $REPO_NAME ]]; then
+		pushd $REPO_NAME
+		# update repositories if already there
+		git pull
+		popd
+	fi
+done
+
+cd
+
+killall ssh-agent
+
+echo "Done updating, please log out then in again"
+
