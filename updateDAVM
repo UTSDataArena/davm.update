@@ -22,6 +22,7 @@ export REPOS="
 examples
 davmdoc
 videos
+bin
 "
 
 cd /local
