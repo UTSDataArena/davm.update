@@ -46,9 +46,9 @@ cd /tmp
 git clone git@codeine.research.uts.edu.au:da/davm.user.git
 # check if this symlink exists
 if [[ -L /home/davm/.kde4 ]]; then
-	ZZ=`readlink /home/davm/.kde4`
+	ZZ=`readlink -f /home/davm/.kde4`
 	# move it out of the way
-	mv $ZZ .kde4.`date +'%y%m%d.%5N'`
+	mv $ZZ /home/davm/.kde4.`date +'%y%m%d.%5N'`
 fi
 rsync -av --chown=davm:davm davm.user/ /home/davm/
 
