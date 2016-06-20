@@ -17,33 +17,6 @@ if (( $EUID != 0 )); then
 	exit
 fi
 
+echo "Not implemented yet."
 
-cd
-
-eval `ssh-agent`
-ssh-add ~/.ssh/id_rsa_gitlab_deploy
-
-export REPOS="
-examples
-davmdoc
-videos
-"
-
-cd /local
-
-for REPO_NAME in $REPOS
-do
-	if [[ -d $REPO_NAME ]]; then
-		pushd $REPO_NAME
-		# update repositories if already there
-		git pull
-		popd
-	fi
-done
-
-cd
-
-killall ssh-agent
-
-echo "Done updating, please log out then in again"
-
+exit
