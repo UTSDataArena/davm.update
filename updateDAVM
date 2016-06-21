@@ -16,8 +16,8 @@ cd
 
 export REPOS="
 examples
-davmdoc
-videos
+davm.doc
+davm.movies
 bin
 "
 
