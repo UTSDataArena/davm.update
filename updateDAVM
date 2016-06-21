@@ -18,7 +18,6 @@ export REPOS="
 examples
 davm.doc
 davm.movies
-bin
 "
 
 cd /local
@@ -32,6 +31,9 @@ do
 		popd
 	fi
 done
+
+# update self repo as root
+cd /local/bin && /usr/bin/git pull
 
 # regenerate documentation
 cd /local/davm.doc && /usr/bin/sudo -u davm /usr/bin/make html
