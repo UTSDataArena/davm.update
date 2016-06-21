@@ -34,7 +34,7 @@ do
 done
 
 # regenerate documentation
-cd /local/davmdoc && /usr/bin/sudo -u davm /usr/bin/make html
+cd /local/davm.doc && /usr/bin/sudo -u davm /usr/bin/make html
 
 # Update config files from home directory
 cd /tmp
