@@ -14,9 +14,9 @@ fi
 
 cd
 
+## davm.doc removed to be replaced by wordpress updating
 export REPOS="
 examples
-davm.doc
 davm.movies
 "
 
@@ -35,8 +35,8 @@ done
 # update self repo as root
 cd /local/bin && /usr/bin/git pull
 
-# regenerate documentation
-cd /local/davm.doc && /usr/bin/sudo -u davm /usr/bin/make html
+## regenerate documentation, for previous doc system
+##cd /local/davm.doc && /usr/bin/sudo -u davm /usr/bin/make html
 
 # Update config files from home directory
 cd /tmp
