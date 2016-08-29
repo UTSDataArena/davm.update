@@ -6,10 +6,7 @@
 # bino
 # Equalizer
 # drishti
-# [Darren 22Apr16]
-
-# TODO:
-# fetch latest release from github (or gitlab) through github API
+# [Darren 29Aug16]
 
 # check that this script is run as root
 if (( $EUID != 0 )); then
@@ -17,6 +14,41 @@ if (( $EUID != 0 )); then
 	exit
 fi
 
-echo "Not implemented yet."
+echo "Updates omegalib and Equalizer only (WIP)"
+
+export REPOS="
+omegalib
+omegalib/omicron
+Equalizer
+"
+
+cd /local
+
+for REPO_NAME in $REPOS
+do
+	if [[ -d $REPO_NAME ]]; then
+		pushd $REPO_NAME
+		/usr/bin/sudo -u davm /usr/bin/git pull origin master
+		popd
+	fi
+done
+
+# omegalib submodules updated here..
+cd /local/omegalib/modules
+/usr/bin/sudo -u davm ./mpull
+
+# omegalib building
+cd /local/omegalib/build
+# set executable permissions on libraries/executables (only if successful)
+/usr/bin/sudo -u davm make install && chmod -R +x $OMEGA_DIR/install/omegalib/bin/
+
+# Equalizer
+cd /local/Equalizer/build && make install
+
+## TODO
+# Bino update
+# drishti update
+# paraview update
+# additional software
 
 exit
