@@ -51,7 +51,9 @@ cd /local/omegalib/build
 pushd omicron/omicron && { /usr/bin/sudo -u davm -- cmake -DOMICRON_USE_VRPN=false . ; popd; }
 
 # set executable permissions on libraries/executables (only if successful)
-/usr/bin/sudo -u davm -- make -j$PROCS install && chmod -R +x $OMEGA_DIR/install/omegalib/bin/
+# do it this way to overcome dependecy issue with omegaOsgEarth (WIP)
+/usr/bin/sudo -u davm -- make -kj$PROCS
+/usr/bin/sudo -u davm -- make -kj$PROCS install && chmod -R +x $OMEGA_DIR/install/omegalib/bin/
 
 # Equalizer
 # Not doing this for now..
