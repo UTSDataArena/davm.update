@@ -44,7 +44,7 @@ cd /local/omegalib/modules
 cd /local/omegalib/build
 
 # make omicron build without vrpn (WIP)
-cd omicron/omicron && { /usr/bin/sudo -u davm -- cmake -DOMICRON_USE_VRPN=false . ; popd }
+pushd omicron/omicron && { /usr/bin/sudo -u davm -- cmake -DOMICRON_USE_VRPN=false . ; popd; }
 
 # set executable permissions on libraries/executables (only if successful)
 /usr/bin/sudo -u davm make install && chmod -R +x $OMEGA_DIR/install/omegalib/bin/
