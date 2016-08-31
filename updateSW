@@ -16,6 +16,10 @@ fi
 
 echo "Updates omegalib and Equalizer only (WIP)"
 
+# figure out number of processors in VM, and use one less for compiling
+MAX_PROCS=`cat /proc/cpuinfo | grep processor | wc -l`
+PROCS=$(($MAX_PROCS - 1))
+PROCS=$(($PROCS > 0 ? $PROCS : 1 ))
 
 export OMEGA_DIR=/local/omegalib
 
@@ -47,7 +51,7 @@ cd /local/omegalib/build
 pushd omicron/omicron && { /usr/bin/sudo -u davm -- cmake -DOMICRON_USE_VRPN=false . ; popd; }
 
 # set executable permissions on libraries/executables (only if successful)
-/usr/bin/sudo -u davm make install && chmod -R +x $OMEGA_DIR/install/omegalib/bin/
+/usr/bin/sudo -u davm -- make -j$PROCS install && chmod -R +x $OMEGA_DIR/install/omegalib/bin/
 
 # Equalizer
 # Not doing this for now..
