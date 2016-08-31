@@ -50,7 +50,8 @@ pushd omicron/omicron && { /usr/bin/sudo -u davm -- cmake -DOMICRON_USE_VRPN=fal
 /usr/bin/sudo -u davm make install && chmod -R +x $OMEGA_DIR/install/omegalib/bin/
 
 # Equalizer
-cd /local/Equalizer/build && make install
+# Not doing this for now..
+## cd /local/Equalizer/build && make install
 
 ## TODO
 # Bino update
