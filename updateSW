@@ -28,7 +28,7 @@ for REPO_NAME in $REPOS
 do
 	if [[ -d $REPO_NAME ]]; then
 		pushd $REPO_NAME
-		/usr/bin/sudo -u davm /usr/bin/git pull origin master
+		/usr/bin/sudo -u davm -- /usr/bin/git pull origin master
 		popd
 	fi
 done
@@ -39,6 +39,10 @@ cd /local/omegalib/modules
 
 # omegalib building
 cd /local/omegalib/build
+
+# make omicron build without vrpn (WIP)
+cd omicron/omicron && { /usr/bin/sudo -u davm -- cmake -DOMICRON_USE_VRPN=false . ; popd }
+
 # set executable permissions on libraries/executables (only if successful)
 /usr/bin/sudo -u davm make install && chmod -R +x $OMEGA_DIR/install/omegalib/bin/
 
