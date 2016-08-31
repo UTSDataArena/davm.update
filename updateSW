@@ -16,6 +16,9 @@ fi
 
 echo "Updates omegalib and Equalizer only (WIP)"
 
+
+export OMEGA_DIR=/local/omegalib
+
 export REPOS="
 omegalib
 omegalib/omicron
