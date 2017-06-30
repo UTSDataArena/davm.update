@@ -14,7 +14,7 @@ if (( $EUID != 0 )); then
 	exit
 fi
 
-echo "Updates omegalib and Equalizer only (WIP)"
+echo "Updates omegalib only (WIP)"
 
 # figure out number of processors in VM, and use one less for compiling
 MAX_PROCS=`cat /proc/cpuinfo | grep processor | wc -l`
@@ -26,7 +26,6 @@ export OMEGA_DIR=/local/omegalib
 export REPOS="
 omegalib
 omegalib/omicron
-Equalizer
 "
 
 cd /local
@@ -55,12 +54,9 @@ pushd omicron/omicron && { /usr/bin/sudo -u davm -- cmake -DOMICRON_USE_VRPN=fal
 /usr/bin/sudo -u davm -- make -kj$PROCS
 /usr/bin/sudo -u davm -- make -kj$PROCS install && chmod -R +x $OMEGA_DIR/install/omegalib/bin/
 
-# Equalizer
-# Not doing this for now..
-## cd /local/Equalizer/build && make install
-
 ## TODO
 # Bino update
+# Equalizer update
 # drishti update
 # paraview update
 # additional software
