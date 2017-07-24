@@ -44,19 +44,16 @@ cd /tmp
 # do things as davm (no environment variables passed)
 /usr/bin/sudo -u davm /bin/bash <<EOF
 
-/usr/bin/git clone https://github.com/UTSDataArena/davm.user.git
+/usr/bin/git clone https://github.com/UTSDataArena/davm.user.git /tmp/davm.user
 
-# check if this symlink exists
-if [[ -L /home/davm/.kde4 ]]; then
-	#ZZ=`readlink -f /home/davm/.kde4`
-	# move it out of the way (no env vars passed, so use directly)
-	/bin/mv `readlink -f /home/davm/.kde4` /home/davm/.kde4.`date +'%y%m%d.%5N'`
-fi
-/usr/bin/rsync -av --chown=davm:davm davm.user/ /home/davm/
+# move it out of the way (no env vars passed, so use directly)
+
+/usr/bin/rsync -bav --backup-dir="backup_$(date +%y%m%d.%5N)" --chown=davm:davm /tmp/davm.user/ /home/davm/
 
 # Remove copied files
 /bin/rm -rf /home/davm/.git
 /bin/rm -rf /tmp/davm.user
+
 
 EOF
 
