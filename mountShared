@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# This is a helper script to assist new users with setting up mapped drives within the DAVM
+
+sudo mount -t vboxsf $1 -o uid=1000,gid=1000 $2
