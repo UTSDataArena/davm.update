@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Compare the current state of the filesystem to an index that was created at DAVM build time and
+# report any detected updates.
+#
+# note: We exclude hidden files in the davm home directory so as to filter out browser cache etc.
+
+sudo hashdeep -c sha256 -k /root/file_hashes -s -x -r -o f /bin /boot /da /etc /home /lib32 /lib64 /local /opt /sbin /usr | grep -v '^/home/davm/\.'
