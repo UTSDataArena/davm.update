@@ -1,0 +1,80 @@
+#!/usr/bin/env python2
+
+# Compare the version of this DAVM to the list of those that have been released so far and alert 
+# the user if this instance has is now out of date.
+
+import sys
+import urllib2
+import xml.dom.minidom
+
+from PyQt4 import QtGui
+from datetime import datetime
+
+VERSION_FORMAT = '%Y%m%d'
+
+ETC_VERSION = '/etc/davm_version'
+RELEASE_URL = 'https://s3-ap-southeast-2.amazonaws.com/uts.dataarena.vm/'
+
+ALERT_TITLE = 'This DAVM release is now out of date!'
+ALERT_MESSAGE = 'Please refer to the DAVM Google Group for more information about how to download and install the latest release.'
+
+def fetch_current_release():
+    """
+    Retrieve the release version of the DAVM within which this script has been invoked.
+    """
+    current = datetime.now().date().strftime(VERSION_FORMAT)
+    try:
+        f = open(ETC_VERSION, 'r')
+        current = f.read().strip()
+        f.close()
+    except:
+        pass
+
+    return current
+
+def fetch_available_releases():
+    """
+    Uses the S3 REST api to retrieve an XML listing of the specified bucket contents (appropriate
+    public access rights need to be assigned to the bucket for this call to succeed).
+    """
+    try:
+        return urllib2.urlopen(RELEASE_URL).read()
+    except Exception:
+        return None
+
+def parse_available_releases(payload):
+    """
+    This implementation relies on each release being uploaded to a YYYYMMDD folder underneath the
+    releases directory inside the uts.dataarena.vm S3 bucket.
+    """
+    releases = []
+    if payload:
+        dom = xml.dom.minidom.parseString(payload)
+
+        for entry in dom.getElementsByTagName('Contents'):
+            keys = entry.getElementsByTagName('Key')
+            bits = keys[0].firstChild.data.split('/')
+
+            if bits[1] and bits[1] not in releases:
+                releases.append(bits[1])
+
+    return releases
+
+def check_release_version():
+    """
+    Compare current release to latest available release and alert user if they are out of date.
+    """
+    response = fetch_available_releases()
+    if response:
+        releases = parse_available_releases(response)
+
+        if releases:
+            latest = datetime.strptime(releases[-1], VERSION_FORMAT)
+            current = datetime.strptime(fetch_current_release(), VERSION_FORMAT)
+
+            if current < latest:
+                app = QtGui.QApplication(sys.argv)
+                QtGui.QMessageBox.warning(None, ALERT_TITLE, ALERT_MESSAGE, QtGui.QMessageBox.Ok)
+
+if __name__ == '__main__':
+    check_release_version()
