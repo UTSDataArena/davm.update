@@ -10,7 +10,8 @@ import xml.dom.minidom
 from PyQt4 import QtGui
 from datetime import datetime
 
-VERSION_FORMAT = '%Y%m%d'
+CURRENT_VERSION_FORMAT = '%y%m%d'
+RELEASE_VERSION_FORMAT = '%Y%m%d' # Releases in online bucket contain century in year component
 
 ETC_VERSION = '/etc/davm_version'
 RELEASE_URL = 'https://s3-ap-southeast-2.amazonaws.com/uts.dataarena.vm/'
@@ -22,7 +23,7 @@ def fetch_current_release():
     """
     Retrieve the release version of the DAVM within which this script has been invoked.
     """
-    current = datetime.now().date().strftime(VERSION_FORMAT)
+    current = datetime.now().date().strftime(CURRENT_VERSION_FORMAT)
     try:
         f = open(ETC_VERSION, 'r')
         current = f.read().strip()
@@ -69,8 +70,8 @@ def check_release_version():
         releases = parse_available_releases(response)
 
         if releases:
-            latest = datetime.strptime(releases[-1], VERSION_FORMAT)
-            current = datetime.strptime(fetch_current_release(), VERSION_FORMAT)
+            latest = datetime.strptime(releases[-1], RELEASE_VERSION_FORMAT)
+            current = datetime.strptime(fetch_current_release(), CURRENT_VERSION_FORMAT)
 
             if current < latest:
                 app = QtGui.QApplication(sys.argv)
