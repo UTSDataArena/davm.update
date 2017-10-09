@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# This is a helper script to assist users with setting up new visualisation projects within the DAVM
+
+PROJECT_HOME=/da/davm
+TEMPLATE_HOME=/local/template
+
+if [[ -z $1 ]]; then
+    echo "Error: Please specify a project name!"
+    exit 1
+else
+    PROJECT_PATH=${PROJECT_HOME}/$1
+
+    mkdir ${PROJECT_PATH}
+    cp -R ${TEMPLATE_HOME}/* ${PROJECT_PATH}
+
+    echo "Project path: ${PROJECT_PATH}"
+fi
+
