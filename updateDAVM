@@ -14,6 +14,9 @@ fi
 
 cd
 
+GITHUB_REPO=https://github.com/UTSDataArena
+GITLAB_REPO=git@codeine.research.uts.edu.au:da
+
 ## davm.doc removed to be replaced by wordpress updating
 export REPOS="
 examples
@@ -44,7 +47,7 @@ cd /tmp
 # do things as davm (no environment variables passed)
 /usr/bin/sudo -u davm /bin/bash <<EOF
 
-/usr/bin/git clone https://github.com/UTSDataArena/davm.user.git /tmp/davm.user
+/usr/bin/git clone $GITHUB_REPO/davm.user.git /tmp/davm.user
 
 # move it out of the way (no env vars passed, so use directly)
 
@@ -61,7 +64,7 @@ EOF
 
 # update etc files
 cd /tmp
-/usr/bin/git clone https://github.com/UTSDataArena/davm.etc.git
+/usr/bin/git clone $GITHUB_REPO/davm.etc.git
 cd /tmp/davm.etc
 
 /usr/bin/rsync -av /tmp/davm.etc/etc/ /etc/
