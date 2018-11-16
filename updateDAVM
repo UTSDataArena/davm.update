@@ -15,7 +15,7 @@ fi
 cd
 
 GITHUB_REPO=https://github.com/UTSDataArena
-GITLAB_REPO=git@codeine.research.uts.edu.au:da
+GITLAB_REPO=git@code.research.uts.edu.au:da/DAVM
 
 ## davm.doc removed to be replaced by wordpress updating
 export REPOS="
