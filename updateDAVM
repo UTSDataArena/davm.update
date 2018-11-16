@@ -15,7 +15,15 @@ fi
 cd
 
 GITHUB_REPO=https://github.com/UTSDataArena
-GITLAB_REPO=git@code.research.uts.edu.au:da/DAVM
+GITLAB_HOST=code.research.uts.edu.au
+GITLAB_REPO=git@${GITLAB_HOST}:da/DAVM
+
+GIT_REPO=$GITLAB_REPO
+
+# if gitlab not reachable for some reason, use github
+if [[ 0 -ne `ping -c1 -W1 $GITLAB_HOST >/dev/null` ]]; then 
+    GIT_REPO=$GITHUB_REPO
+fi
 
 ## davm.doc removed to be replaced by wordpress updating
 export REPOS="
@@ -47,7 +55,7 @@ cd /tmp
 # do things as davm (no environment variables passed)
 /usr/bin/sudo -u davm /bin/bash <<EOF
 
-/usr/bin/git clone $GITHUB_REPO/davm.user.git /tmp/davm.user
+/usr/bin/git clone $GIT_REPO/davm.user.git /tmp/davm.user
 
 # move it out of the way (no env vars passed, so use directly)
 
@@ -64,7 +72,7 @@ EOF
 
 # update etc files
 cd /tmp
-/usr/bin/git clone $GITHUB_REPO/davm.etc.git
+/usr/bin/git clone $GIT_REPO/davm.etc.git
 cd /tmp/davm.etc
 
 /usr/bin/rsync -av /tmp/davm.etc/etc/ /etc/
